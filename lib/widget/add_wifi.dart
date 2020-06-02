@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:setel_assessment/model/model.dart';
+import 'package:setel_assessment/utilities/utilities.dart';
 
 import '../repository/wifi_repository.dart';
 
@@ -115,8 +115,7 @@ class MapSample extends HookWidget {
     final completer = useState(Completer());
 
     Future jumpToCurrentLocation() async {
-      final location = Location();
-      final currentLocation = await location.getLocation();
+      final currentLocation = await getCurrentLocation();
 
       final currentPosition = CameraPosition(
         target: LatLng(currentLocation.latitude, currentLocation.longitude),

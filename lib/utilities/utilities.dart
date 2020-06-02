@@ -3,13 +3,13 @@ import 'package:location/location.dart';
 
 const kDefaultPadding = const EdgeInsets.all(8.0);
 
-Future getPermission() async {
+Future<bool> getPermission() async {
   Location location = Location();
   bool _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
     _serviceEnabled = await location.requestService();
     if (!_serviceEnabled) {
-      return;
+      return false;
     }
   }
 
@@ -17,7 +17,14 @@ Future getPermission() async {
   if (_permissionGranted == PermissionStatus.denied) {
     _permissionGranted = await location.requestPermission();
     if (_permissionGranted != PermissionStatus.granted) {
-      return;
+      return false;
     }
   }
+
+  return true;
+}
+
+Future<LocationData> getCurrentLocation() async {
+  final location = Location();
+  return await location.getLocation();
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:latlong/latlong.dart';
+import 'package:setel_assessment/generated/l10n.dart';
 import 'package:setel_assessment/repository/repository.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
 
@@ -9,23 +11,53 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useEffect(() {
-      getPermission();
-      return null;
-    }, [false]);
-
+    final locale = S.of(context);
     final hiveValue = useValueListenable(repository.wifiBox().listenable());
+
+    // Set default to outside.
+    final status = useState(locale.outside);
+
+    Future getData() async {
+      if (hiveValue.isEmpty) {
+        status.value = locale.outside;
+        return;
+      }
+
+      final hasPermission = await getPermission();
+
+      if (hasPermission) {
+        final currentLocation = await getCurrentLocation();
+
+        final storedLocation = hiveValue.get('0');
+
+        // From https://pub.dev/packages/latlong#-readme-tab-
+        final Distance distanceObject = Distance();
+        final distanceInMeter = distanceObject(
+          LatLng(currentLocation.latitude, currentLocation.longitude),
+          LatLng(storedLocation.latitude, storedLocation.longitude),
+        );
+
+        status.value = distanceInMeter < storedLocation.radius
+            ? locale.inside
+            : locale.outside;
+      }
+    }
+
+    useEffect(() {
+      getData();
+      return null;
+    }, [hiveValue.length]);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Setel Assessment'),
+        title: Text(S.of(context).title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              'Location status: ',
+              S.of(context).status(status.value),
             ),
             ListView.builder(
               itemCount: hiveValue.length,

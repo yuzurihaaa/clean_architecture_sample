@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:setel_assessment/generated/l10n.dart';
 import 'package:setel_assessment/widget/add_wifi.dart';
 
 import 'repository/wifi_repository.dart';
@@ -19,6 +21,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        S.delegate,
+      ],
+      supportedLocales: [
+        ...S.delegate.supportedLocales
+      ],
       routes: {
         '/addWifi': (_) => AddWifi(),
       },
