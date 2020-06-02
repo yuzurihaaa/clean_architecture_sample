@@ -8,7 +8,16 @@ import 'package:setel_assessment/utilities/utilities.dart';
 
 import '../repository/wifi_repository.dart';
 
+class AddWifiArgs {
+  final WifiModel model;
+  final int index;
+
+  AddWifiArgs({this.model, this.index});
+}
+
 class AddWifi extends HookWidget {
+
+  static const screenName = '/addWifi';
   @override
   Widget build(BuildContext context) {
     final radius = useState(0.1);
@@ -16,6 +25,31 @@ class AddWifi extends HookWidget {
     final circles = useState<Set<Circle>>(Set.from(<Circle>[]));
 
     final textController = useTextEditingController();
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        final AddWifiArgs args = ModalRoute.of(context).settings.arguments;
+
+        if (args != null) {
+          textController.text = args.model.wifiName;
+          print(radius.value);
+
+          radius.value = fromKm(args.model.radius);
+
+          circles.value = Set.from([
+            Circle(
+              circleId: CircleId('selected'),
+              center: LatLng(args.model.latitude, args.model.longitude),
+              radius: toKm(radius.value),
+              fillColor: Colors.green.withOpacity(.2),
+              strokeWidth: 2,
+              strokeColor: Colors.green,
+            )
+          ]);
+        }
+      });
+      return null;
+    }, [false]);
 
     useEffect(() {
       if (circles.value.isNotEmpty) {
@@ -75,12 +109,20 @@ class AddWifi extends HookWidget {
                   return;
                 }
                 try {
-                  WifiRepository().addWifi(WifiModel(
-                    radius: radius.value * 1000,
+                  final model = WifiModel(
+                    radius: toKm(radius.value),
                     latitude: circles.value.first.center.latitude,
                     longitude: circles.value.first.center.longitude,
                     wifiName: textController.text,
-                  ));
+                  );
+                  final AddWifiArgs args =
+                      ModalRoute.of(context).settings.arguments;
+                  final repository = getIt<WifiRepository>();
+                  if (args != null) {
+                    repository.editWifi(model, args.index);
+                  } else {
+                    repository.addWifi(model);
+                  }
 
                   Navigator.pop(context);
                 } on Error catch (_) {}
@@ -115,10 +157,11 @@ class MapSample extends HookWidget {
     final completer = useState(Completer());
 
     Future jumpToCurrentLocation() async {
-      final currentLocation = await getCurrentLocation();
+      final AddWifiArgs args = ModalRoute.of(context).settings.arguments;
+      var focusedLocation = await getCurrentLocation(args?.model);
 
       final currentPosition = CameraPosition(
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        target: LatLng(focusedLocation.latitude, focusedLocation.longitude),
         zoom: 17,
       );
 
@@ -127,7 +170,9 @@ class MapSample extends HookWidget {
     }
 
     useEffect(() {
-      jumpToCurrentLocation();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        jumpToCurrentLocation();
+      });
       return null;
     }, [false]);
     return GoogleMap(

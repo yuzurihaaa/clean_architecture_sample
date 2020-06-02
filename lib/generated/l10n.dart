@@ -62,6 +62,24 @@ class S {
       args: [],
     );
   }
+
+  String distanceFromLocation(Object distance) {
+    return Intl.message(
+      '${distance}m from current location',
+      name: 'distanceFromLocation',
+      desc: '',
+      args: [distance],
+    );
+  }
+
+  String radius(Object radius) {
+    return Intl.message(
+      'Radius: $radius',
+      name: 'radius',
+      desc: '',
+      args: [radius],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

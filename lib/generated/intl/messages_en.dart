@@ -19,13 +19,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(status) => "Location status: ${status}";
+  static m0(distance) => "${distance}m from current location";
+
+  static m1(radius) => "Radius: ${radius}";
+
+  static m2(status) => "Location status: ${status}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "distanceFromLocation" : m0,
     "inside" : MessageLookupByLibrary.simpleMessage("inside"),
     "outside" : MessageLookupByLibrary.simpleMessage("outside"),
-    "status" : m0,
+    "radius" : m1,
+    "status" : m2,
     "title" : MessageLookupByLibrary.simpleMessage("Setel Assessment")
   };
 }

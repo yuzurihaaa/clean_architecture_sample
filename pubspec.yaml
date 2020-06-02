@@ -31,6 +31,8 @@ dependencies:
   location: ^3.0.2
   intl: ^0.16.1
   latlong: ^0.6.1
+  connectivity: ^0.4.8+6
+  get_it: ^4.0.2
   flutter_localizations:
     sdk: flutter
 

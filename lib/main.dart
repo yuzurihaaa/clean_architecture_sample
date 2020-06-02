@@ -5,9 +5,11 @@ import 'package:setel_assessment/generated/l10n.dart';
 import 'package:setel_assessment/widget/add_wifi.dart';
 
 import 'repository/wifi_repository.dart';
+import 'utilities/utilities.dart';
 import 'widget/home_page.dart';
 
 Future main() async {
+  getIt.registerSingleton<WifiRepository>(WifiRepository());
   await WifiRepository.init();
   runApp(MyApp());
 }
@@ -28,11 +30,9 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         S.delegate,
       ],
-      supportedLocales: [
-        ...S.delegate.supportedLocales
-      ],
+      supportedLocales: [...S.delegate.supportedLocales],
       routes: {
-        '/addWifi': (_) => AddWifi(),
+        AddWifi.screenName: (_) => AddWifi(),
       },
       home: MyHomePage(),
     );

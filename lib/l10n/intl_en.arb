@@ -2,5 +2,7 @@
   "title": "Setel Assessment",
   "status": "Location status: {status}",
   "outside": "outside",
-  "inside": "inside"
+  "inside": "inside",
+  "distanceFromLocation": "{distance}m from current location",
+  "radius": "Radius: {radius}"
 }
