@@ -73,6 +73,9 @@ class MyHomePage extends HookWidget {
               shrinkWrap: true,
               itemBuilder: (_, index) {
                 final item = hiveValue.getAt(index);
+                if (!currentLocation.hasData) {
+                  return Container();
+                }
                 return _ListItem(
                   currentLocation: currentLocation.data,
                   selected: selected.value,
@@ -111,8 +114,10 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentCoordinate =
-        LatLng(currentLocation.latitude, currentLocation.longitude);
+    final currentCoordinate = LatLng(
+      currentLocation.latitude,
+      currentLocation.longitude,
+    );
     final itemCoordinate = LatLng(item.latitude, item.longitude);
     final distance = distanceInMeter(currentCoordinate, itemCoordinate);
     return Dismissible(
