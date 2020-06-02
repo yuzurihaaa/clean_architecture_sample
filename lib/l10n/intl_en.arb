@@ -4,5 +4,13 @@
   "outside": "outside",
   "inside": "inside",
   "distanceFromLocation": "{distance}m from current location",
-  "radius": "Radius: {radius}"
+  "radius": "Radius: {radius}",
+  "add": "Add",
+  "edit": "Edit",
+  "setWifiRadius": "Set Wifi radius",
+  "addWifi": "Add Wifi",
+  "statusCurrentstatusvalue": "Status: {currentStatus}",
+  "wifiName": "Wifi Name",
+  "enterAWifiName": "Enter a wifi name",
+  "setWifiLocation": "Set Wifi Location"
 }

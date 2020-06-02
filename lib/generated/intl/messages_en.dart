@@ -25,13 +25,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(status) => "Location status: ${status}";
 
+  static m3(currentStatus) => "Status: ${currentStatus}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "add" : MessageLookupByLibrary.simpleMessage("Add"),
+    "addWifi" : MessageLookupByLibrary.simpleMessage("Add Wifi"),
     "distanceFromLocation" : m0,
+    "edit" : MessageLookupByLibrary.simpleMessage("Edit"),
+    "enterAWifiName" : MessageLookupByLibrary.simpleMessage("Enter a wifi name"),
     "inside" : MessageLookupByLibrary.simpleMessage("inside"),
     "outside" : MessageLookupByLibrary.simpleMessage("outside"),
     "radius" : m1,
+    "setWifiLocation" : MessageLookupByLibrary.simpleMessage("Set Wifi Location"),
+    "setWifiRadius" : MessageLookupByLibrary.simpleMessage("Set Wifi radius"),
     "status" : m2,
-    "title" : MessageLookupByLibrary.simpleMessage("Setel Assessment")
+    "statusCurrentstatusvalue" : m3,
+    "title" : MessageLookupByLibrary.simpleMessage("Setel Assessment"),
+    "wifiName" : MessageLookupByLibrary.simpleMessage("Wifi Name")
   };
 }

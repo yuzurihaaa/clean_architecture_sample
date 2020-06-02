@@ -80,6 +80,78 @@ class S {
       args: [radius],
     );
   }
+
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get setWifiRadius {
+    return Intl.message(
+      'Set Wifi radius',
+      name: 'setWifiRadius',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addWifi {
+    return Intl.message(
+      'Add Wifi',
+      name: 'addWifi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String statusCurrentstatusvalue(Object currentStatus) {
+    return Intl.message(
+      'Status: $currentStatus',
+      name: 'statusCurrentstatusvalue',
+      desc: '',
+      args: [currentStatus],
+    );
+  }
+
+  String get wifiName {
+    return Intl.message(
+      'Wifi Name',
+      name: 'wifiName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get enterAWifiName {
+    return Intl.message(
+      'Enter a wifi name',
+      name: 'enterAWifiName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get setWifiLocation {
+    return Intl.message(
+      'Set Wifi Location',
+      name: 'setWifiLocation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
