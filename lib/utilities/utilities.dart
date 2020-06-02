@@ -28,3 +28,5 @@ Future<LocationData> getCurrentLocation() async {
   final location = Location();
   return await location.getLocation();
 }
+
+Stream<LocationData> listenCurrentLocation() => Location().onLocationChanged;

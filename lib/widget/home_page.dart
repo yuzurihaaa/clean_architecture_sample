@@ -14,8 +14,13 @@ class MyHomePage extends HookWidget {
     final locale = S.of(context);
     final hiveValue = useValueListenable(repository.wifiBox().listenable());
 
+    final currentLocation = useStream(listenCurrentLocation());
+
     // Set default to outside.
     final status = useState(locale.outside);
+
+    // Set default to be the first wifi.
+    final selected = useState(0);
 
     Future getData() async {
       if (hiveValue.isEmpty) {
@@ -28,7 +33,7 @@ class MyHomePage extends HookWidget {
       if (hasPermission) {
         final currentLocation = await getCurrentLocation();
 
-        final storedLocation = hiveValue.get('0');
+        final storedLocation = hiveValue.getAt(selected.value);
 
         // From https://pub.dev/packages/latlong#-readme-tab-
         final Distance distanceObject = Distance();
@@ -46,7 +51,7 @@ class MyHomePage extends HookWidget {
     useEffect(() {
       getData();
       return null;
-    }, [hiveValue.length]);
+    }, [hiveValue.length, selected.value, currentLocation.data]);
 
     return Scaffold(
       appBar: AppBar(
@@ -81,14 +86,20 @@ class MyHomePage extends HookWidget {
                   color: Colors.red,
                 ),
                 background: Container(),
-                child: Padding(
-                  padding: kDefaultPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(hiveValue.get('$index').wifiName),
-                      Text('${hiveValue.get('$index').radius} km')
-                    ],
+                child: InkWell(
+                  onTap: () => selected.value = index,
+                  child: Container(
+                    padding: kDefaultPadding,
+                    color: selected.value == index
+                        ? Colors.lightBlueAccent.withOpacity(.5)
+                        : Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(hiveValue.getAt(index)?.wifiName ?? ''),
+                        Text('${hiveValue.getAt(index)?.radius} km')
+                      ],
+                    ),
                   ),
                 ),
               ),
