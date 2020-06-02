@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:setel_assessment/model/model.dart';
 
-import 'repository/wifi_repository.dart';
+import '../repository/wifi_repository.dart';
 
 class AddWifi extends HookWidget {
   @override
