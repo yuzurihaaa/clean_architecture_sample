@@ -7,16 +7,16 @@ part 'wifi_model.g.dart';
 class WifiModel extends HiveObject with EquatableMixin {
 
   @HiveField(0)
-  final String wifiName;
+  String wifiName;
 
   @HiveField(1)
-  final double latitude;
+  double latitude;
 
   @HiveField(2)
-  final double longitude;
+  double longitude;
 
   @HiveField(3)
-  final double radius;
+  double radius;
 
   WifiModel({
     this.wifiName = '',

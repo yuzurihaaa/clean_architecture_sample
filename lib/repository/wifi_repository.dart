@@ -11,12 +11,21 @@ class WifiRepository {
     await Hive.openBox<WifiModel>(WifiRepository.wifiBoxDbName);
   }
 
-  Box<WifiModel> wifiBox() =>
-      Hive.box<WifiModel>(WifiRepository.wifiBoxDbName);
+  Box<WifiModel> wifiBox() => Hive.box<WifiModel>(WifiRepository.wifiBoxDbName);
 
   void addWifi(WifiModel model) {
     final box = wifiBox();
 
     box.add(model);
+  }
+
+  void editWifi(WifiModel model, int index) {
+    final box = wifiBox();
+    final oldData = box.getAt(index);
+    oldData.radius = model.radius;
+    oldData.wifiName = model.wifiName;
+    oldData.longitude = model.longitude;
+    oldData.latitude = model.latitude;
+    oldData.save();
   }
 }
