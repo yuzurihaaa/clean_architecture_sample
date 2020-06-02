@@ -17,6 +17,6 @@ class WifiRepository {
   void addWifi(WifiModel model) {
     final box = wifiBox();
 
-    box.put('${box.length}', model);
+    box.add(model);
   }
 }
