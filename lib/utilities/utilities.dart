@@ -10,11 +10,13 @@ import 'package:setel_assessment/repository/repository.dart';
 /// initialize the injected class every time required.
 GetIt getIt = GetIt.instance;
 
+/// Function to gather all required class for injection.
 void initInjection() {
   getIt.registerSingleton<WifiRepository>(WifiRepository());
   getIt.registerSingleton<GeoFenceUtil>(GeoFenceUtil.init());
 }
 
+/// Lazy var for calling injected [GeoFenceUtil]
 final GeoFenceUtil geoFenceUtil = getIt<GeoFenceUtil>();
 
 /// Most probably we're going to use this padding everywhere
