@@ -2,6 +2,8 @@
 
 Assessment project for Setel.
 
+**Apk is available on root dir [here](app-release.apk)**
+
 ## Requirement
 Requirements are wrote [here](https://docs.google.com/document/d/1pkxwhGSmvDei3BRm9Ix7tVUGose_Lpp-MBJzvO1T31w/edit)
 
