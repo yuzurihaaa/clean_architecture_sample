@@ -48,7 +48,6 @@ class AddWifi extends HookWidget {
 
     final isEditing = useState(false);
 
-
     Future updateStatus() async {
       bool isSameWifi = await isConnectToSpecificWifi(textController.text);
       if (isSameWifi) {

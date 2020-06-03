@@ -1,11 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'wifi_model.g.dart';
 
 @HiveType(typeId: 0)
-class WifiModel extends HiveObject with EquatableMixin {
-
+class WifiModel extends HiveObject {
   @HiveField(0)
   String wifiName;
 
@@ -24,12 +22,4 @@ class WifiModel extends HiveObject with EquatableMixin {
     this.longitude = 0.0,
     this.radius = 0.0,
   });
-
-  @override
-  List<Object> get props => [
-        wifiName,
-        latitude,
-        longitude,
-        radius,
-      ];
 }
