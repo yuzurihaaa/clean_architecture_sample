@@ -9,7 +9,7 @@ import 'utilities/utilities.dart';
 import 'widget/home_page.dart';
 
 Future main() async {
-  getIt.registerSingleton<WifiRepository>(WifiRepository());
+  initInjection();
   await WifiRepository.init();
   runApp(MyApp());
 }

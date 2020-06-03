@@ -49,7 +49,8 @@ class AddWifi extends HookWidget {
     final isEditing = useState(false);
 
     Future updateStatus() async {
-      bool isSameWifi = await isConnectToSpecificWifi(textController.text);
+      bool isSameWifi =
+          await geoFenceUtil.isConnectToSpecificWifi(textController.text);
       if (isSameWifi) {
         currentStatus.value = locale.inside;
       } else {
@@ -58,13 +59,13 @@ class AddWifi extends HookWidget {
           return;
         }
         final model = WifiModel(
-          radius: toKm(radius?.value),
+          radius: geoFenceUtil.kmToMeter(radius?.value),
           latitude: circles.value.first?.center?.latitude,
           longitude: circles.value.first?.center?.longitude,
           wifiName: textController.text,
         );
 
-        bool inArea = await verifyDistanceRange(model);
+        bool inArea = await geoFenceUtil.verifyDistanceRange(model);
         currentStatus.value = inArea ? locale.inside : locale.outside;
       }
     }
@@ -72,12 +73,12 @@ class AddWifi extends HookWidget {
     useInitialArg((args) {
       isEditing.value = true;
       textController.text = args.model.wifiName;
-      radius.value = fromKm(args.model.radius);
+      radius.value = geoFenceUtil.meterToKm(args.model.radius);
       circles.value = Set.from([
         Circle(
           circleId: CircleId('selected'),
           center: LatLng(args.model.latitude, args.model.longitude),
-          radius: toKm(radius.value),
+          radius: geoFenceUtil.kmToMeter(radius.value),
           fillColor: Colors.green.withOpacity(.2),
           strokeWidth: 2,
           strokeColor: Colors.green,
@@ -178,7 +179,7 @@ class AddWifi extends HookWidget {
                 }
                 try {
                   final model = WifiModel(
-                    radius: toKm(radius.value),
+                    radius: geoFenceUtil.kmToMeter(radius.value),
                     latitude: circles.value.first.center.latitude,
                     longitude: circles.value.first.center.longitude,
                     wifiName: textController.text,
@@ -226,7 +227,7 @@ class MapSample extends HookWidget {
 
     Future jumpToCurrentLocation() async {
       final AddWifiArgs args = ModalRoute.of(context).settings.arguments;
-      var focusedLocation = await getCurrentLocation(args?.model);
+      var focusedLocation = await geoFenceUtil.getCurrentLocation(args?.model);
 
       final currentPosition = CameraPosition(
         target: LatLng(focusedLocation.latitude, focusedLocation.longitude),

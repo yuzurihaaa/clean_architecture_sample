@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:setel_assessment/model/model.dart';
@@ -5,6 +6,12 @@ import 'package:setel_assessment/model/model.dart';
 class WifiRepository {
   static const wifiBoxDbName = 'wifi_box';
 
+  /// Hive is needed to be init in [main] function.
+  /// Boxes are also required to be open before usage.
+  /// Since our first screen is using Hive, we open it before [runApp]
+  /// is called.
+  ///
+  /// Refer https://docs.hivedb.dev/
   static Future init() async {
     await Hive.initFlutter();
     Hive.registerAdapter<WifiModel>(WifiModelAdapter());

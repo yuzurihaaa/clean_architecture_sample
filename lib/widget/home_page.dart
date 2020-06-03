@@ -19,7 +19,7 @@ class MyHomePage extends HookWidget {
     final locale = S.of(context);
     final hiveValue = useValueListenable(repository.wifiBox().listenable());
 
-    final currentLocation = useStream(listenCurrentLocation());
+    final currentLocation = useStream(geoFenceUtil.listenCurrentLocation());
 
     // Set default to outside.
     final status = useState(locale.outside);
@@ -38,12 +38,14 @@ class MyHomePage extends HookWidget {
 
       final storedItem = hiveValue.getAt(selected.value);
 
-      final isSameWifi = await isConnectToSpecificWifi(storedItem.wifiName);
+      final isSameWifi =
+          await geoFenceUtil.isConnectToSpecificWifi(storedItem.wifiName);
 
       if (isSameWifi) {
         status.value = locale.inside;
       } else {
-        final isInsideBoundary = await verifyDistanceRange(storedItem);
+        final isInsideBoundary =
+            await geoFenceUtil.verifyDistanceRange(storedItem);
 
         status.value = isInsideBoundary ? locale.inside : locale.outside;
       }
@@ -119,13 +121,16 @@ class _ListItem extends StatelessWidget {
       currentLocation.longitude,
     );
     final itemCoordinate = LatLng(item.latitude, item.longitude);
-    final distance = distanceInMeter(currentCoordinate, itemCoordinate);
+
+    final distance =
+        geoFenceUtil.distanceInMeter(currentCoordinate, itemCoordinate);
+
     return Dismissible(
       direction: DismissDirection.endToStart,
       key: UniqueKey(),
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          WifiRepository().wifiBox().deleteAt(index);
+          getIt<WifiRepository>().wifiBox().deleteAt(index);
         }
       },
       secondaryBackground: Container(
