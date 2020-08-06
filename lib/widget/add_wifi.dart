@@ -42,7 +42,7 @@ class AddWifi extends HookWidget {
 
     final textController = useTextEditingController.call(text: '');
 
-    final locale = S.of(context);
+    final locale = S.current;
 
     final currentStatus = useState(locale.outside);
 

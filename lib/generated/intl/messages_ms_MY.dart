@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a ms_MY locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -17,31 +17,31 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'ms_MY';
 
-  static m0(distance) => "${distance}m from current location";
+  static m0(distance) => "${distance}m dari lokasi sekarang";
 
   static m1(radius) => "Radius: ${radius}";
 
-  static m2(status) => "Location status: ${status}";
+  static m2(status) => "Status tempat: ${status}";
 
   static m3(currentStatus) => "Status: ${currentStatus}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "add" : MessageLookupByLibrary.simpleMessage("Add"),
-    "addWifi" : MessageLookupByLibrary.simpleMessage("Add Wifi"),
+    "add" : MessageLookupByLibrary.simpleMessage("Tambah"),
+    "addWifi" : MessageLookupByLibrary.simpleMessage("Tambah Wifi"),
     "distanceFromLocation" : m0,
-    "edit" : MessageLookupByLibrary.simpleMessage("Edit"),
-    "enterAWifiName" : MessageLookupByLibrary.simpleMessage("Enter a wifi name"),
-    "inside" : MessageLookupByLibrary.simpleMessage("inside"),
-    "outside" : MessageLookupByLibrary.simpleMessage("outside"),
+    "edit" : MessageLookupByLibrary.simpleMessage("Tukar"),
+    "enterAWifiName" : MessageLookupByLibrary.simpleMessage("Isi nama WIFI"),
+    "inside" : MessageLookupByLibrary.simpleMessage("dalam"),
+    "outside" : MessageLookupByLibrary.simpleMessage("luar"),
     "radius" : m1,
-    "setWifiLocation" : MessageLookupByLibrary.simpleMessage("Set Wifi Location"),
-    "setWifiRadius" : MessageLookupByLibrary.simpleMessage("Set Wifi radius"),
+    "setWifiLocation" : MessageLookupByLibrary.simpleMessage("Tetapkan lokasi WIFI"),
+    "setWifiRadius" : MessageLookupByLibrary.simpleMessage("Tetapkan radius Wifi"),
     "status" : m2,
     "statusCurrentstatusvalue" : m3,
-    "title" : MessageLookupByLibrary.simpleMessage("Setel Assessment"),
-    "wifiName" : MessageLookupByLibrary.simpleMessage("Wifi Name")
+    "title" : MessageLookupByLibrary.simpleMessage("Ujian Setel"),
+    "wifiName" : MessageLookupByLibrary.simpleMessage("Nama Wifi")
   };
 }

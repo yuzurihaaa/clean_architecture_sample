@@ -8,26 +8,32 @@ import 'intl/messages_all.dart';
 // Made by Localizely
 // **************************************************************************
 
+// ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
+
 class S {
   S();
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static S current;
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      return S();
+      S.current = S();
+      
+      return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Setel Assessment`
   String get title {
     return Intl.message(
       'Setel Assessment',
@@ -37,6 +43,7 @@ class S {
     );
   }
 
+  /// `Location status: {status}`
   String status(Object status) {
     return Intl.message(
       'Location status: $status',
@@ -46,6 +53,7 @@ class S {
     );
   }
 
+  /// `outside`
   String get outside {
     return Intl.message(
       'outside',
@@ -55,6 +63,7 @@ class S {
     );
   }
 
+  /// `inside`
   String get inside {
     return Intl.message(
       'inside',
@@ -64,6 +73,7 @@ class S {
     );
   }
 
+  /// `{distance}m from current location`
   String distanceFromLocation(Object distance) {
     return Intl.message(
       '${distance}m from current location',
@@ -73,6 +83,7 @@ class S {
     );
   }
 
+  /// `Radius: {radius}`
   String radius(Object radius) {
     return Intl.message(
       'Radius: $radius',
@@ -82,6 +93,7 @@ class S {
     );
   }
 
+  /// `Add`
   String get add {
     return Intl.message(
       'Add',
@@ -91,6 +103,7 @@ class S {
     );
   }
 
+  /// `Edit`
   String get edit {
     return Intl.message(
       'Edit',
@@ -100,6 +113,7 @@ class S {
     );
   }
 
+  /// `Set Wifi radius`
   String get setWifiRadius {
     return Intl.message(
       'Set Wifi radius',
@@ -109,6 +123,7 @@ class S {
     );
   }
 
+  /// `Add Wifi`
   String get addWifi {
     return Intl.message(
       'Add Wifi',
@@ -118,6 +133,7 @@ class S {
     );
   }
 
+  /// `Status: {currentStatus}`
   String statusCurrentstatusvalue(Object currentStatus) {
     return Intl.message(
       'Status: $currentStatus',
@@ -127,6 +143,7 @@ class S {
     );
   }
 
+  /// `Wifi Name`
   String get wifiName {
     return Intl.message(
       'Wifi Name',
@@ -136,6 +153,7 @@ class S {
     );
   }
 
+  /// `Enter a wifi name`
   String get enterAWifiName {
     return Intl.message(
       'Enter a wifi name',
@@ -145,6 +163,7 @@ class S {
     );
   }
 
+  /// `Set Wifi Location`
   String get setWifiLocation {
     return Intl.message(
       'Set Wifi Location',
@@ -161,6 +180,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ms', countryCode: 'MY'),
     ];
   }
 

@@ -16,7 +16,7 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = S.of(context);
+    final locale = S.current;
     final hiveValue = useValueListenable(repository.wifiBox().listenable());
 
     final currentLocation = useStream(geoFenceUtil.listenCurrentLocation());

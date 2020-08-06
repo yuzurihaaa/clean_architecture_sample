@@ -1,0 +1,16 @@
+{
+  "title": "Ujian Setel",
+  "status": "Status tempat: {status}",
+  "outside": "luar",
+  "inside": "dalam",
+  "distanceFromLocation": "{distance}m dari lokasi sekarang",
+  "radius": "Radius: {radius}",
+  "add": "Tambah",
+  "edit": "Tukar",
+  "setWifiRadius": "Tetapkan radius Wifi",
+  "addWifi": "Tambah Wifi",
+  "statusCurrentstatusvalue": "Status: {currentStatus}",
+  "wifiName": "Nama Wifi",
+  "enterAWifiName": "Isi nama WIFI",
+  "setWifiLocation": "Tetapkan lokasi WIFI"
+}
