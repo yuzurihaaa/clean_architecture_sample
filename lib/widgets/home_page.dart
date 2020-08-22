@@ -1,60 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
+import 'package:setel_assessment/bloc/wifi_bloc.dart' hide AddWifi;
 import 'package:setel_assessment/generated/l10n.dart';
-import 'package:setel_assessment/model/model.dart';
-import 'package:setel_assessment/repository/repository.dart';
+import 'package:setel_assessment/models/models.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
-
-import 'add_wifi.dart';
+import 'package:setel_assessment/widgets/widget.dart';
 
 class MyHomePage extends HookWidget {
-  final repository = getIt<WifiRepository>();
+  static const screenName = '/homePage';
 
   @override
   Widget build(BuildContext context) {
-    final locale = S.current;
-    final hiveValue = useValueListenable(repository.wifiBox().listenable());
-
-    final currentLocation = useStream(geoFenceUtil.listenCurrentLocation());
-
-    // Set default to outside.
-    final status = useState(locale.outside);
+    final blocState = useBlocListener<WifiBloc, WifiState>();
 
     // Set default to be the first wifi.
     final selected = useState(0);
 
-    // Note that if device coordinates are reported outside of the zone,
-    // but the device still connected to the specific Wifi network,
-    // then the device is treated as being inside the geofence area.
-    Future getData() async {
-      if (hiveValue.isEmpty) {
-        status.value = locale.outside;
-        return;
-      }
-
-      final storedItem = hiveValue.getAt(selected.value);
-
-      final isSameWifi =
-          await geoFenceUtil.isConnectToSpecificWifi(storedItem.wifiName);
-
-      if (isSameWifi) {
-        status.value = locale.inside;
-      } else {
-        final isInsideBoundary =
-            await geoFenceUtil.verifyDistanceRange(storedItem);
-
-        status.value = isInsideBoundary ? locale.inside : locale.outside;
-      }
-    }
-
     useEffect(() {
-      getData();
+      // ignore: close_sinks
+      final _bloc = context.bloc<WifiBloc>();
+      _bloc.add(UpdateStatus(selectedId: selected.value));
       return null;
-    }, [hiveValue.length, selected.value, currentLocation.data]);
+    }, [
+      selected.value,
+      blocState,
+      blocState.wifi,
+    ]);
 
     return Scaffold(
       appBar: AppBar(
@@ -65,21 +40,21 @@ class MyHomePage extends HookWidget {
           Expanded(
             child: Center(
               child: Text(
-                S.of(context).status(status.value),
+                blocState.status,
               ),
             ),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: hiveValue.length,
+              itemCount: blocState.wifi.length,
               shrinkWrap: true,
               itemBuilder: (_, index) {
-                final item = hiveValue.getAt(index);
-                if (!currentLocation.hasData) {
+                final item = blocState.wifi[index];
+                if (blocState.currentLocation == null) {
                   return Container();
                 }
                 return _ListItem(
-                  currentLocation: currentLocation.data,
+                  currentLocation: blocState.currentLocation,
                   selected: selected.value,
                   index: index,
                   item: item,
@@ -130,7 +105,9 @@ class _ListItem extends StatelessWidget {
       key: UniqueKey(),
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          getIt<WifiRepository>().wifiBox().deleteAt(index);
+          context.bloc<WifiBloc>().add(DeleteWifi(
+                id: index,
+              ));
         }
       },
       secondaryBackground: Container(
@@ -163,8 +140,8 @@ class _ListItem extends StatelessWidget {
                 ],
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
+                onPressed: () async {
+                  await Navigator.of(context).pushNamed(
                     AddWifi.screenName,
                     arguments: AddWifiArgs(
                       model: item,

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:setel_assessment/bloc/wifi_bloc.dart' as wifi_bloc;
 import 'package:setel_assessment/generated/l10n.dart';
-import 'package:setel_assessment/model/model.dart';
+import 'package:setel_assessment/models/models.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
-
-import '../repository/wifi_repository.dart';
 
 class AddWifiArgs {
   final WifiModel model;
@@ -59,7 +59,7 @@ class AddWifi extends HookWidget {
           return;
         }
         final model = WifiModel(
-          radius: geoFenceUtil.kmToMeter(radius?.value),
+          radius: Utilities.kmToMeter(radius?.value),
           latitude: circles.value.first?.center?.latitude,
           longitude: circles.value.first?.center?.longitude,
           wifiName: textController.text,
@@ -73,12 +73,12 @@ class AddWifi extends HookWidget {
     useInitialArg((args) {
       isEditing.value = true;
       textController.text = args.model.wifiName;
-      radius.value = geoFenceUtil.meterToKm(args.model.radius);
+      radius.value = Utilities.meterToKm(args.model.radius);
       circles.value = Set.from([
         Circle(
           circleId: CircleId('selected'),
           center: LatLng(args.model.latitude, args.model.longitude),
-          radius: geoFenceUtil.kmToMeter(radius.value),
+          radius: Utilities.kmToMeter(radius.value),
           fillColor: Colors.green.withOpacity(.2),
           strokeWidth: 2,
           strokeColor: Colors.green,
@@ -110,6 +110,26 @@ class AddWifi extends HookWidget {
       }
       return null;
     }, [radius.value, circles.value]);
+
+    void _addOrEditWifi() {
+      final model = WifiModel(
+        radius: Utilities.kmToMeter(radius.value),
+        latitude: circles.value.first.center.latitude,
+        longitude: circles.value.first.center.longitude,
+        wifiName: textController.text,
+      );
+      final AddWifiArgs args =
+          ModalRoute.of(context).settings.arguments;
+      // ignore: close_sinks
+      final bloc = context.bloc<wifi_bloc.WifiBloc>();
+      if (args != null) {
+        bloc.add(wifi_bloc.EditWifi(wifi: model, id: args.index));
+      } else {
+        bloc.add(wifi_bloc.AddWifi(
+          wifi: model,
+        ));
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -178,21 +198,7 @@ class AddWifi extends HookWidget {
                   return;
                 }
                 try {
-                  final model = WifiModel(
-                    radius: geoFenceUtil.kmToMeter(radius.value),
-                    latitude: circles.value.first.center.latitude,
-                    longitude: circles.value.first.center.longitude,
-                    wifiName: textController.text,
-                  );
-                  final AddWifiArgs args =
-                      ModalRoute.of(context).settings.arguments;
-                  final repository = getIt<WifiRepository>();
-                  if (args != null) {
-                    repository.editWifi(model, args.index);
-                  } else {
-                    repository.addWifi(model);
-                  }
-
+                  _addOrEditWifi();
                   Navigator.pop(context);
                 } on Error catch (_) {}
               },

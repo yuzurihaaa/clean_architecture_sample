@@ -23,16 +23,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.13.0
-  hive: ^1.4.2
+  flutter_hooks: ^0.13.1
+  hive: ^1.4.4
   hive_flutter: ^0.3.1
   equatable: ^1.2.3
-  google_maps_flutter: ^0.5.29
+  google_maps_flutter: ^0.5.30
   location: ^3.0.2
   intl: ^0.16.1
   latlong: ^0.6.1
   connectivity: ^0.4.9
   get_it: ^4.0.4
+  flutter_bloc: ^6.0.1
   flutter_localizations:
     sdk: flutter
 

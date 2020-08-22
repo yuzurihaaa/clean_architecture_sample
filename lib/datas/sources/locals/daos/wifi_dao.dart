@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:setel_assessment/model/model.dart';
+import 'package:setel_assessment/datas/sources/locals/models/wifi_db_model.dart';
 
-class WifiRepository {
+class WifiDao {
   static const wifiBoxDbName = 'wifi_box';
 
   /// Hive is needed to be init in [main] function.
@@ -14,19 +14,23 @@ class WifiRepository {
   /// Refer https://docs.hivedb.dev/
   static Future init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter<WifiModel>(WifiModelAdapter());
-    await Hive.openBox<WifiModel>(WifiRepository.wifiBoxDbName);
+    Hive.registerAdapter<WifiDbModel>(WifiModelAdapter());
+    await Hive.openBox<WifiDbModel>(WifiDao.wifiBoxDbName);
   }
 
-  Box<WifiModel> wifiBox() => Hive.box<WifiModel>(WifiRepository.wifiBoxDbName);
+  Box<WifiDbModel> wifiBox() => Hive.box<WifiDbModel>(WifiDao.wifiBoxDbName);
 
-  void addWifi(WifiModel model) {
+  WifiDbModel getWifiByIndex(int index) {
+    return wifiBox().getAt(index);
+  }
+
+  void addWifi(WifiDbModel model) {
     final box = wifiBox();
 
     box.add(model);
   }
 
-  void editWifi(WifiModel model, int index) {
+  void editWifi(WifiDbModel model, int index) {
     final box = wifiBox();
     final oldData = box.getAt(index);
     oldData.radius = model.radius;
@@ -34,5 +38,9 @@ class WifiRepository {
     oldData.longitude = model.longitude;
     oldData.latitude = model.latitude;
     oldData.save();
+  }
+
+  void delete(int index) {
+    wifiBox().deleteAt(index);
   }
 }
