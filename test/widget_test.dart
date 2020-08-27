@@ -1,9 +1,9 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:data/data.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong/latlong.dart' as latLong;
 import 'package:location/location.dart';
 import 'package:mockito/mockito.dart';
-import 'package:setel_assessment/models/models.dart';
 import 'package:setel_assessment/services/services.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
 

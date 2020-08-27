@@ -1,3 +1,4 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
 import 'package:setel_assessment/bloc/wifi_bloc.dart' hide AddWifi;
 import 'package:setel_assessment/generated/l10n.dart';
-import 'package:setel_assessment/models/models.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
 import 'package:setel_assessment/widgets/widget.dart';
 
@@ -76,7 +76,7 @@ class MyHomePage extends HookWidget {
 class _ListItem extends StatelessWidget {
   final int index;
   final int selected;
-  final WifiModel item;
+  final Wifi item;
   final Function onTap;
   final LocationData currentLocation;
 

@@ -1,10 +1,10 @@
+import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
-import 'package:setel_assessment/datas/repositories/repository.dart';
-import 'package:setel_assessment/datas/sources/locals/local.dart';
 import 'package:setel_assessment/services/geofence.dart';
 
 /// We're using GetIt for Injection(Service locator) so that we don't have to
@@ -13,12 +13,14 @@ GetIt getIt = GetIt.instance;
 
 /// Function to gather all required class for injection.
 void initInjection() {
-  getIt.registerSingleton<WifiRepository>(WifiRepository(WifiDao()));
+  getIt.registerSingleton<WifiRepository>(
+    WifiRepositoryImpl(WifiLocalDatasourceImpl()),
+  );
   getIt.registerSingleton<GeofenceService>(GeofenceService.init());
 }
 
 Future initDatabase() async {
-  await WifiDao.init();
+  await WifiLocalDatasourceImpl.init();
 }
 
 /// Lazy var for calling injected [GeoFenceUtil]

@@ -6,17 +6,17 @@ part of 'wifi_db_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WifiModelAdapter extends TypeAdapter<WifiDbModel> {
+class WifiModelAdapter extends TypeAdapter<Wifi> {
   @override
   final typeId = 0;
 
   @override
-  WifiDbModel read(BinaryReader reader) {
+  Wifi read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return WifiDbModel(
+    return Wifi(
       wifiName: fields[0] as String,
       latitude: fields[1] as double,
       longitude: fields[2] as double,
@@ -25,7 +25,7 @@ class WifiModelAdapter extends TypeAdapter<WifiDbModel> {
   }
 
   @override
-  void write(BinaryWriter writer, WifiDbModel obj) {
+  void write(BinaryWriter writer, Wifi obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)

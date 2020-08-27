@@ -10,7 +10,7 @@ class GetWifi extends WifiEvent {
 }
 
 class AddWifi extends WifiEvent {
-  final WifiModel wifi;
+  final Wifi wifi;
 
   AddWifi({this.wifi});
 
@@ -19,7 +19,7 @@ class AddWifi extends WifiEvent {
 }
 
 class EditWifi extends WifiEvent {
-  final WifiModel wifi;
+  final Wifi wifi;
   final int id;
 
   EditWifi({this.wifi, this.id});

@@ -34,6 +34,10 @@ dependencies:
   connectivity: ^0.4.9
   get_it: ^4.0.4
   flutter_bloc: ^6.0.1
+  domain:
+    path: ./domain
+  data:
+    path: ./data
   flutter_localizations:
     sdk: flutter
 

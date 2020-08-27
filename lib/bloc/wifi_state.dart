@@ -1,7 +1,7 @@
 part of 'wifi_bloc.dart';
 
 class WifiState extends Equatable {
-  final List<WifiModel> wifi;
+  final List<Wifi> wifi;
   final String status;
   final LocationData currentLocation;
 
@@ -12,13 +12,13 @@ class WifiState extends Equatable {
   });
 
   factory WifiState.initial() => WifiState(
-        wifi: <WifiModel>[],
+        wifi: <Wifi>[],
         status: S.current.outside,
         currentLocation: null,
       );
 
   WifiState copyWith({
-    List<WifiModel> wifi,
+    List<Wifi> wifi,
     String status,
     LocationData currentLocation,
   }) =>

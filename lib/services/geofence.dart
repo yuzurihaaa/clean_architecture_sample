@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:domain/domain.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
-import 'package:setel_assessment/models/models.dart';
 
 class GeofenceService {
   final Location location;
@@ -13,9 +13,9 @@ class GeofenceService {
   });
 
   factory GeofenceService.init() => GeofenceService(
-    location: Location(),
-    connectivity: Connectivity(),
-  );
+        location: Location(),
+        connectivity: Connectivity(),
+      );
 
   /// This function is basically a copy paste from
   /// https://pub.dev/packages/location#usage
@@ -42,7 +42,7 @@ class GeofenceService {
   }
 
   /// Part of https://pub.dev/packages/location#usage
-  Future<LocationData> getCurrentLocation([WifiModel arg]) async {
+  Future<LocationData> getCurrentLocation([Wifi arg]) async {
     if (arg != null) {
       return LocationData.fromMap({
         'latitude': arg.latitude,
@@ -57,8 +57,8 @@ class GeofenceService {
   /// This should be paired for hook.
   Stream<LocationData> get listenCurrentLocation =>
       location.onLocationChanged.distinct(
-            (prev, current) =>
-        prev.longitude == current.longitude &&
+        (prev, current) =>
+            prev.longitude == current.longitude &&
             prev.latitude == current.latitude,
       );
 
@@ -93,7 +93,7 @@ class GeofenceService {
   /// Refer [_distanceInMeter] on getting the distance.
   /// This function merely check permission, get current location and
   /// use [Distance] to get the range.
-  Future<bool> verifyDistanceRange(WifiModel arg) async {
+  Future<bool> verifyDistanceRange(Wifi arg) async {
     final hasPermission = await getLocationPermission();
 
     if (hasPermission) {

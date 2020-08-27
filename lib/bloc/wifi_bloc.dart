@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:domain/domain.dart';
 import 'package:equatable/equatable.dart';
 import 'package:location/location.dart';
-import 'package:setel_assessment/datas/repositories/repository.dart';
 import 'package:setel_assessment/generated/l10n.dart';
-import 'package:setel_assessment/models/models.dart';
 import 'package:setel_assessment/services/geofence.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
 
@@ -51,7 +50,7 @@ class WifiBloc extends Bloc<WifiEvent, WifiState> {
     }
 
     if (event is GetWifi) {
-      final List<WifiModel> wifis = repository.allWifi;
+      final List<Wifi> wifis = repository.allWifi;
 
       yield state.copyWith(wifi: wifis);
     }
