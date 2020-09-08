@@ -1,10 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:domain/domain.dart';
 import 'package:hive/hive.dart';
 
-part 'wifi_db_model.g.dart';
+part 'wifi_hive_model.g.dart';
 
 @HiveType(typeId: 0)
-class Wifi extends HiveObject with EquatableMixin {
+class WifiHiveModel extends WifiEntities with HiveObject {
   @HiveField(0)
   String wifiName;
 
@@ -17,7 +17,7 @@ class Wifi extends HiveObject with EquatableMixin {
   @HiveField(3)
   double radius;
 
-  Wifi({
+  WifiHiveModel({
     this.wifiName = '',
     this.latitude = 0.0,
     this.longitude = 0.0,

@@ -1,11 +1,9 @@
-# setel_assessment
+# Clean Architecture Sample 
 
-Assessment project for Setel.
+Originally for my interview assessment, but I am making this as my
+clean architecture sample example for Flutter.
 
 **Apk is available on root dir [here](app-release.apk)**
-
-## Requirement
-Requirements are wrote [here](https://docs.google.com/document/d/1pkxwhGSmvDei3BRm9Ix7tVUGose_Lpp-MBJzvO1T31w/edit)
 
 ### Prerequisites
 1. Flutter
@@ -16,16 +14,55 @@ Requirements are wrote [here](https://docs.google.com/document/d/1pkxwhGSmvDei3B
 1. `flutter run` on terminal or IDE configuration setup.
 
 ## Build with
-1. Architecture.
+1. Presentation layer.
     1. [Flutter_hooks](https://pub.dev/packages/flutter_hooks) - UI Management
-    2. [Intl](https://pub.dev/packages/intl) - Internationalization (supported locale is English and Malay)
+    2. [Flutter_bloc](https://pub.dev/packages/flutter_bloc) - State management
+    3. [Intl](https://pub.dev/packages/intl) - Internationalization (supported locale is English and Malay)
+    4. [Equatable](https://pub.dev/packages/equatable)
     
     **note**: Internationalization is built with [Flutter_intl_jetbrain](https://plugins.jetbrains.com/plugin/13666-flutter-intl) plugins.
     There's also plugins for [vscode](https://marketplace.visualstudio.com/items?itemName=localizely.flutter-intl)
 
-2. Repository
+2. Data Layer
     1. [Hive](https://pub.dev/packages/hive)
     2. [Hive_flutter](https://pub.dev/packages/hive_flutter)
+    
+    
+3. Pure Dart on Domain Layer
+4. [Equatable](https://pub.dev/packages/equatable) for unit tests.
+
+### Architecture
+![clean architecture](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)
+* Layers separated by Data, Domain, Presentation.
+* Presentation layer are mainly in [lib/](lib) directories.
+    * Pure UI logic (no business logic)
+    * Only using logic from our domain / presentation.
+    * Consist of:
+        1. Widgets
+        2. Blocs (refer flutter_bloc)
+        3. Device (here is mainly for geo fencing)
+
+* Domain layer [domain/](domain)
+    * Pure dart (no Flutter sdk)
+    * Only using logic within our domain.
+    * Consists of:
+        1. Entities (Models)
+        2. Repositories (Interfaces)
+        3. Use cases (or you can also call it User Stories)
+
+* Data layer [data](data)
+    * Might contains Platform code (In this case Database)
+    * Only using logic within our domain / data
+    * Consists of:
+        1. Data sources (local / remote but in this example only local)
+        2. Models (Data source model response object / database object)
+        3. Repositories Implementations (Implemented from Domain)
+
+* Rules:
+    1. UI must not know about where the data is from.
+    2. From the image above, the inner layer *MUST NOT* know the outer layer.
+    3. Bloc should be state management, not handle logic.
+    4. Bloc should handle state based on user stories (use cases).
 
 ### Running
 1. `flutter run` on terminal or IDE configuration setup.

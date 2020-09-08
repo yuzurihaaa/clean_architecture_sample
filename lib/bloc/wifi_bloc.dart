@@ -12,11 +12,17 @@ part 'wifi_event.dart';
 part 'wifi_state.dart';
 
 class WifiBloc extends Bloc<WifiEvent, WifiState> {
-  final WifiRepository repository;
+  final AddWifiUseCase addWifiUseCase;
+  final GetWifiUseCase getWifiUseCase;
+  final EditWifiUseCase editWifiUseCase;
+  final DeleteWifiUseCase deleteWifiUseCase;
   final GeofenceService geoFenceUtil;
 
   WifiBloc({
-    this.repository,
+    this.addWifiUseCase,
+    this.getWifiUseCase,
+    this.editWifiUseCase,
+    this.deleteWifiUseCase,
     this.geoFenceUtil,
   }) : super(WifiState.initial()) {
     add(GetWifi());
@@ -27,7 +33,10 @@ class WifiBloc extends Bloc<WifiEvent, WifiState> {
 
   factory WifiBloc.initial() => WifiBloc(
         geoFenceUtil: getIt.get<GeofenceService>(),
-        repository: getIt.get<WifiRepository>(),
+        addWifiUseCase: getIt.get<AddWifiUseCase>(),
+        getWifiUseCase: getIt.get<GetWifiUseCase>(),
+        editWifiUseCase: getIt.get<EditWifiUseCase>(),
+        deleteWifiUseCase: getIt.get<DeleteWifiUseCase>(),
       );
 
   @override
@@ -35,28 +44,28 @@ class WifiBloc extends Bloc<WifiEvent, WifiState> {
     WifiEvent event,
   ) async* {
     if (event is AddWifi) {
-      repository.addWifi(event.wifi);
+      addWifiUseCase(event.wifi);
       add(GetWifi());
     }
 
     if (event is EditWifi) {
-      repository.editWifi(event.wifi, event.id);
+      editWifiUseCase(event.wifi, event.id);
       add(GetWifi());
     }
 
     if (event is DeleteWifi) {
-      repository.deleteWifiByIndex(event.id);
+      deleteWifiUseCase(event.id);
       add(GetWifi());
     }
 
     if (event is GetWifi) {
-      final List<Wifi> wifis = repository.allWifi;
+      final List<WifiEntities> wifis = getWifiUseCase();
 
       yield state.copyWith(wifi: wifis);
     }
 
     if (event is UpdateStatus) {
-      final allWifis = repository.allWifi;
+      final allWifis = getWifiUseCase();
 
       String status = S.current.outside;
 
@@ -64,6 +73,7 @@ class WifiBloc extends Bloc<WifiEvent, WifiState> {
         yield state.copyWith(
           status: status,
         );
+        return;
       }
 
       final storedItem = allWifis[event.selectedId];

@@ -1,5 +1,5 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong/latlong.dart' as latLong;
 import 'package:location/location.dart';
@@ -86,7 +86,7 @@ void main() {
 
   test('test get current location to use argument if available', () async {
     final geoFenceUtil = GeofenceService();
-    final model = WifiModel(
+    final model = WifiEntities(
       latitude: 3.157797,
       longitude: 101.71196,
       radius: 200,
@@ -145,7 +145,7 @@ void main() {
 
     final geoFenceUtil = GeofenceService(location: location);
 
-    final model = WifiModel(
+    final model = WifiEntities(
       latitude: endLocation.latitude,
       longitude: endLocation.longitude,
       radius: 200,
@@ -171,7 +171,7 @@ void main() {
 
     final geoFenceUtil = GeofenceService(location: location);
 
-    final model = WifiModel(
+    final model = WifiEntities(
       latitude: endLocation2.latitude,
       longitude: endLocation2.longitude,
       radius: 200,

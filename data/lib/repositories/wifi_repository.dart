@@ -1,9 +1,4 @@
-import 'package:domain/domain.dart';
-import 'package:domain/repositories/wifi_repository.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-
-import '../datasources/local/local.dart';
+part of data;
 
 class WifiRepositoryImpl implements WifiRepository {
   final WifiLocalDatasource _wifiData;
@@ -11,14 +6,11 @@ class WifiRepositoryImpl implements WifiRepository {
   WifiRepositoryImpl(this._wifiData);
 
   @override
-  List<Wifi> get allWifi => _wifiData.allWifi;
+  List<WifiEntities> get allWifi => _wifiData.allWifi;
 
   @override
-  ValueListenable<Box<Wifi>> listen() => _wifiData.listenToData();
-
-  @override
-  void addWifi(Wifi model) {
-    final db = Wifi(
+  void addWifi(WifiEntities model) {
+    final db = WifiHiveModel(
       wifiName: model.wifiName,
       longitude: model.longitude,
       latitude: model.latitude,
@@ -28,8 +20,8 @@ class WifiRepositoryImpl implements WifiRepository {
   }
 
   @override
-  void editWifi(Wifi model, int index) {
-    final db = Wifi(
+  void editWifi(WifiEntities model, int index) {
+    final db = WifiHiveModel(
       wifiName: model.wifiName,
       longitude: model.longitude,
       latitude: model.latitude,
@@ -42,7 +34,4 @@ class WifiRepositoryImpl implements WifiRepository {
   void deleteWifiByIndex(int index) {
     _wifiData.delete(index);
   }
-
-  @override
-  Wifi getWifiByIndex(int index) => _wifiData.getWifiByIndex(index);
 }

@@ -9,8 +9,8 @@ import 'bloc/wifi_bloc.dart' hide AddWifi;
 import 'utilities/utilities.dart';
 
 Future main() async {
-  initInjection();
   await initDatabase();
+  initInjection();
   runApp(MyApp());
 }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:data/models/models.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,7 @@ import 'package:setel_assessment/generated/l10n.dart';
 import 'package:setel_assessment/utilities/utilities.dart';
 
 class AddWifiArgs {
-  final Wifi model;
+  final WifiEntities model;
   final int index;
 
   AddWifiArgs({this.model, this.index});
@@ -59,7 +58,7 @@ class AddWifi extends HookWidget {
           currentStatus.value = locale.outside;
           return;
         }
-        final model = WifiModel(
+        final model = WifiEntities(
           radius: Utilities.kmToMeter(radius?.value),
           latitude: circles.value.first?.center?.latitude,
           longitude: circles.value.first?.center?.longitude,
@@ -113,14 +112,13 @@ class AddWifi extends HookWidget {
     }, [radius.value, circles.value]);
 
     void _addOrEditWifi() {
-      final model = WifiModel(
+      final model = WifiEntities(
         radius: Utilities.kmToMeter(radius.value),
         latitude: circles.value.first.center.latitude,
         longitude: circles.value.first.center.longitude,
         wifiName: textController.text,
       );
-      final AddWifiArgs args =
-          ModalRoute.of(context).settings.arguments;
+      final AddWifiArgs args = ModalRoute.of(context).settings.arguments;
       // ignore: close_sinks
       final bloc = context.bloc<wifi_bloc.WifiBloc>();
       if (args != null) {

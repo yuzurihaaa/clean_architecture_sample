@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'wifi_db_model.dart';
+part of 'wifi_hive_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WifiModelAdapter extends TypeAdapter<Wifi> {
+class WifiHiveModelAdapter extends TypeAdapter<WifiHiveModel> {
   @override
-  final typeId = 0;
+  final int typeId = 0;
 
   @override
-  Wifi read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+  WifiHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Wifi(
+    return WifiHiveModel(
       wifiName: fields[0] as String,
       latitude: fields[1] as double,
       longitude: fields[2] as double,
@@ -25,7 +25,7 @@ class WifiModelAdapter extends TypeAdapter<Wifi> {
   }
 
   @override
-  void write(BinaryWriter writer, Wifi obj) {
+  void write(BinaryWriter writer, WifiHiveModel obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -37,4 +37,14 @@ class WifiModelAdapter extends TypeAdapter<Wifi> {
       ..writeByte(3)
       ..write(obj.radius);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WifiHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

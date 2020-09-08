@@ -1,19 +1,15 @@
-import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+part of data;
 
 abstract class WifiLocalDatasource {
-  ValueListenable<Box<Wifi>> listenToData();
+  Stream<List<WifiHiveModel>> listenToData();
 
-  List<Wifi> get allWifi;
+  List<WifiHiveModel> get allWifi;
 
-  Wifi getWifiByIndex(int index);
+  WifiHiveModel getWifiByIndex(int index);
 
-  void addWifi(Wifi model);
+  void addWifi(WifiHiveModel model);
 
-  void editWifi(Wifi model, int index);
+  void editWifi(WifiHiveModel model, int index);
 
   void delete(int index);
 }
@@ -29,26 +25,36 @@ class WifiLocalDatasourceImpl implements WifiLocalDatasource {
   /// Refer https://docs.hivedb.dev/
   static Future init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter<Wifi>(WifiModelAdapter());
-    await Hive.openBox<Wifi>(WifiLocalDatasourceImpl.wifiBoxDbName);
+    Hive.registerAdapter<WifiHiveModel>(WifiHiveModelAdapter());
+    await Hive.openBox<WifiHiveModel>(WifiLocalDatasourceImpl.wifiBoxDbName);
   }
 
-  Box<Wifi> _wifiBox() => Hive.box<Wifi>(WifiLocalDatasourceImpl.wifiBoxDbName);
+  final StreamController<List<WifiHiveModel>> _wifiStream = StreamController<
+      List<WifiHiveModel>>();
+
+  WifiLocalDatasourceImpl() {
+    _wifiBox().listenable().addListener(() {
+      _wifiStream.add(_wifiBox().values.toList());
+    });
+  }
+
+  Box<WifiHiveModel> _wifiBox() =>
+      Hive.box<WifiHiveModel>(WifiLocalDatasourceImpl.wifiBoxDbName);
 
   @override
-  Wifi getWifiByIndex(int index) {
+  WifiHiveModel getWifiByIndex(int index) {
     return _wifiBox().getAt(index);
   }
 
   @override
-  void addWifi(Wifi model) {
+  void addWifi(WifiHiveModel model) {
     final box = _wifiBox();
 
     box.add(model);
   }
 
   @override
-  void editWifi(Wifi model, int index) {
+  void editWifi(WifiHiveModel model, int index) {
     final box = _wifiBox();
     final oldData = box.getAt(index);
     oldData.radius = model.radius;
@@ -64,16 +70,18 @@ class WifiLocalDatasourceImpl implements WifiLocalDatasource {
   }
 
   @override
-  ValueListenable<Box<Wifi>> listenToData() => _wifiBox().listenable();
+  Stream<List<WifiHiveModel>> listenToData() => _wifiStream.stream;
 
   @override
-  List<Wifi> get allWifi => _wifiBox()
-      .values
-      .map((e) => Wifi(
+  List<WifiHiveModel> get allWifi =>
+      _wifiBox()
+          .values
+          .map((e) =>
+          WifiHiveModel(
             radius: e.radius,
             latitude: e.latitude,
             longitude: e.longitude,
             wifiName: e.wifiName,
           ))
-      .toList();
+          .toList();
 }

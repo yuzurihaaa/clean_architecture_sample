@@ -42,7 +42,7 @@ class GeofenceService {
   }
 
   /// Part of https://pub.dev/packages/location#usage
-  Future<LocationData> getCurrentLocation([Wifi arg]) async {
+  Future<LocationData> getCurrentLocation([WifiEntities arg]) async {
     if (arg != null) {
       return LocationData.fromMap({
         'latitude': arg.latitude,
@@ -93,7 +93,7 @@ class GeofenceService {
   /// Refer [_distanceInMeter] on getting the distance.
   /// This function merely check permission, get current location and
   /// use [Distance] to get the range.
-  Future<bool> verifyDistanceRange(Wifi arg) async {
+  Future<bool> verifyDistanceRange(WifiEntities arg) async {
     final hasPermission = await getLocationPermission();
 
     if (hasPermission) {

@@ -76,7 +76,7 @@ class MyHomePage extends HookWidget {
 class _ListItem extends StatelessWidget {
   final int index;
   final int selected;
-  final Wifi item;
+  final WifiEntities item;
   final Function onTap;
   final LocationData currentLocation;
 
