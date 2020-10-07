@@ -7,12 +7,12 @@ environment:
 
 dependencies:
   equatable: ^1.2.5
-  hive: ^1.4.4
+  hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   domain:
     path: ../domain
 
 dev_dependencies:
   mockito: ^4.1.2
-  build_runner: ^1.10.0
-  hive_generator: ^0.7.1
+  build_runner: ^1.10.3
+  hive_generator: ^0.8.1
