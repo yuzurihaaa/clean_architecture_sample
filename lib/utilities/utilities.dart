@@ -14,19 +14,16 @@ GetIt getIt = GetIt.instance;
 /// Function to gather all required class for injection.
 void initInjection() {
   final wifiRepository = WifiRepositoryImpl(WifiLocalDatasourceImpl());
-  getIt.registerSingleton<GetWifiUseCase>(
-    GetWifiUseCase(repository: wifiRepository),
-  );
-  getIt.registerSingleton<EditWifiUseCase>(
-    EditWifiUseCase(repository: wifiRepository),
-  );
-  getIt.registerSingleton<DeleteWifiUseCase>(
-    DeleteWifiUseCase(repository: wifiRepository),
-  );
-  getIt.registerSingleton<AddWifiUseCase>(
-    AddWifiUseCase(repository: wifiRepository),
-  );
-  getIt.registerSingleton<GeofenceService>(GeofenceService.init());
+  getIt
+    ..registerSingleton<GetWifiUseCase>(
+        GetWifiUseCase(repository: wifiRepository))
+    ..registerSingleton<EditWifiUseCase>(
+        EditWifiUseCase(repository: wifiRepository))
+    ..registerSingleton<DeleteWifiUseCase>(
+        DeleteWifiUseCase(repository: wifiRepository))
+    ..registerSingleton<AddWifiUseCase>(
+        AddWifiUseCase(repository: wifiRepository))
+    ..registerSingleton<GeofenceService>(GeofenceService.init());
 }
 
 Future initDatabase() async {
