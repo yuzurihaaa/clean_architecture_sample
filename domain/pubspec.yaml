@@ -9,4 +9,6 @@ dependencies:
   equatable: ^1.2.5
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   mockito: ^4.1.1
