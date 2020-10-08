@@ -3,7 +3,7 @@ description: Domain packages
 version: 1.0.0
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   equatable: ^1.2.5
